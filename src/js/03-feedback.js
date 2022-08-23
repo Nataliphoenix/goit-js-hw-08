@@ -1,13 +1,16 @@
 import throttle from 'lodash.throttle';
 
-const STORAGE_KEY = 'feedback-form-state';
-const formData = {};
-
 const refs = {
       form: document.querySelector('.js-feedback-form'),
-      email: document.querySelector('.js-feedback-form input'),
-      message: document.querySelector('.js-feedback-form textarea'),
+      email: document.querySelector('[name="email"]'),
+      message: document.querySelector('[name="message"]'),
 }
+
+const STORAGE_KEY = 'feedback-form-state';
+const formData = {
+      email: refs.email.value,
+      message: refs.message.value,
+};
 
 refs.form.addEventListener('submit', onFormSubmit);
 
@@ -35,17 +38,18 @@ function populateTextarea() {
       const load = key => {
             try {
                   const serializedState = localStorage.getItem(key);
-                  return serializedState === null ? undefined : JSON.parse(serializedState);
+                  return serializedState === null ? '' : JSON.parse(serializedState);
             } catch (error) {
                   console.error("Get state error: ", error.message);
             }
       }
       
-      const parseFormData = load(STORAGE_KEY);
+      let parseFormData = load(STORAGE_KEY);
      
       if (parseFormData) {
             refs.email.value = parseFormData.email;
             refs.message.value = parseFormData.message;
+
       }
       
 }
