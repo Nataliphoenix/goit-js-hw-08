@@ -25,5 +25,5 @@ player.setCurrentTime(localStorage.getItem(CURRENT_TIME)).then(function (seconds
         default:
         break;
     }
-      
+    
 });
