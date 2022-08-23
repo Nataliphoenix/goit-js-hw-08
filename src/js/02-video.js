@@ -21,9 +21,9 @@ player.setCurrentTime(localStorage.getItem(CURRENT_TIME)).then(function (seconds
 }).catch(function(error) {
     switch (error.name) {
         case 'RangeError':
-        break;
+            break;
         default:
-        break;
+            break;
     }
-    
+
 });
