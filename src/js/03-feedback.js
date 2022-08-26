@@ -1,23 +1,20 @@
 import throttle from 'lodash.throttle';
+import {load} from './scripСheck'
 
 const refs = {
       form: document.querySelector('.js-feedback-form'),
       email: document.querySelector('[name="email"]'),
       message: document.querySelector('[name="message"]'),
-}
+} 
 
-const STORAGE_KEY = 'feedback-form-state';
-const formData = {
-      email: refs.email.value,
-      message: refs.message.value,
-};
-
+let STORAGE_KEY = 'feedback-form-state';
+      
 refs.form.addEventListener('submit', onFormSubmit);
 
 populateTextarea();
 
-function onFormSubmit(evt) {
-      evt.preventDefault();
+function onFormSubmit(e) {
+      e.preventDefault();
 
       console.log('email:',refs.email.value);
       console.log('message:',refs.message.value);
@@ -25,31 +22,32 @@ function onFormSubmit(evt) {
       refs.form.reset();
       localStorage.removeItem(STORAGE_KEY);
       
-}
+};
 
 refs.form.addEventListener('input', throttle(e => {
-      formData[e.target.name] = e.target.value;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-      console.log('formData', formData)   
-}, 500))
+      let parseFormData = localStorage.getItem(STORAGE_KEY);
+      
+      if (parseFormData) {
+            parseFormData = load(STORAGE_KEY);
+      } else {
+            parseFormData = {};
+      }
+       
+      parseFormData[e.target.name] = e.target.value;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(parseFormData));
+
+}, 500));
 
 function populateTextarea() {
-
-      const load = key => {
-            try {
-                  const serializedState = localStorage.getItem(key);
-                  return serializedState === null ? '' : JSON.parse(serializedState);
-            } catch (error) {
-                  console.error("Get state error: ", error.message);
-            }
-      }
-      
-      let parseFormData = load(STORAGE_KEY);
+      let parseFormData = localStorage.getItem(STORAGE_KEY);
      
       if (parseFormData) {
-            refs.email.value = parseFormData.email;
-            refs.message.value = parseFormData.message;
+            parseFormData = load(STORAGE_KEY);
 
+            Object.entries(parseFormData).forEach(([name, value]) => { 
+                  refs.form.elements[name].value = value;
+                  
+            })
       }
-      
+     
 }

@@ -16,14 +16,14 @@ localStorage.setItem(CURRENT_TIME, currentTime);
       
 };
 
-player.setCurrentTime(localStorage.getItem(CURRENT_TIME)).then(function (seconds) {
-      
-}).catch(function(error) {
-    switch (error.name) {
-        case 'RangeError':
-            break;
-        default:
-            break;
-    }
+restartCurrentTime();
 
+function restartCurrentTime() {
+    let savedCurrentTime = localStorage.getItem(CURRENT_TIME);
+if (savedCurrentTime) {
+    player.setCurrentTime(savedCurrentTime).then(function (seconds) { 
 });
+}
+}
+
+
