@@ -19,7 +19,7 @@ function onFormSubmit(e) {
       console.log('email:',refs.email.value);
       console.log('message:',refs.message.value);
      
-      refs.form.reset();
+      e.currentTarget.reset();
       localStorage.removeItem(STORAGE_KEY);
       
 };
