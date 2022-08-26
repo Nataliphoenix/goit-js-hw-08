@@ -1,4 +1,4 @@
-import {load} from './scripСheck'
+
 import throttle from 'lodash.throttle';
 
 
@@ -26,6 +26,15 @@ function onFormSubmit(e) {
 };
 
 refs.form.addEventListener('input', throttle(e => {
+      const load = key => {
+            try {
+                  const serializedState = localStorage.getItem(key);
+                  return serializedState === null ? undefined : JSON.parse(serializedState);
+            } catch (error) {
+                  console.error("Get state error: ", error.message);
+            }
+      }
+
       let parseFormData = localStorage.getItem(STORAGE_KEY);
       
       if (parseFormData) {
@@ -40,6 +49,15 @@ refs.form.addEventListener('input', throttle(e => {
 }, 500));
 
 function populateTextarea() {
+      const load = key => {
+            try {
+                  const serializedState = localStorage.getItem(key);
+                  return serializedState === null ? undefined : JSON.parse(serializedState);
+            } catch (error) {
+                  console.error("Get state error: ", error.message);
+            }
+      }
+
       let parseFormData = localStorage.getItem(STORAGE_KEY);
      
       if (parseFormData) {
