@@ -1,5 +1,6 @@
-import throttle from 'lodash.throttle';
 import {load} from './scripСheck'
+import throttle from 'lodash.throttle';
+
 
 const refs = {
       form: document.querySelector('.js-feedback-form'),
